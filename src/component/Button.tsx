@@ -15,7 +15,7 @@ const Button = ({
         display: "block",
         width: "100%",
         padding: "15px 0",
-        background: "linear-gradient(to right, #c0a3e3, #7b5aae) disabled",
+        background: "linear-gradient(to right, #c0a3e3, #7b5aae)",
         borderRadius: "25px",
         color: "#fff",
         textAlign: "center",

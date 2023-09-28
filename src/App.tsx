@@ -41,7 +41,6 @@ function App() {
   };
 
   const onLineChange = (lineNo: number, action: "ADD" | "DELETE") => {
-    // if (addressValue[addressValue.length - 1] != "") {
     if (action === "ADD") {
       setAddressValue([...addressValue, ""]);
     } else {
@@ -49,7 +48,6 @@ function App() {
       updatedAddress.splice(lineNo - 1, 1);
       setAddressValue(updatedAddress);
     }
-    // }
   };
 
   const focusNextInput = (id: number) => {
@@ -68,8 +66,12 @@ function App() {
     if (validateInputValues.isError || validateInputValues.isDublicateError) {
       setValidateTransaction(validateInputValues);
       return;
-    } else {
+    } else if (
+      Object.values(validateInputValues.transactionByUniqueAddresses).length
+    ) {
       toast.success("Thanks for submitting your response");
+    } else {
+      toast.warn("Please Add input address");
     }
   };
 
@@ -87,12 +89,7 @@ function App() {
   };
 
   return (
-    <div
-      className="App text-white"
-      style={{
-        backgroundColor: "GrayText",
-      }}
-    >
+    <div className="App text-white bg-neutral-500">
       <Header />
       <div className="lg px-16">
         <AddressContainer
