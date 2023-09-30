@@ -8,9 +8,9 @@ const Header = (): React.ReactElement => {
           <div className="-m-1.5 p-1.5">Address with amount</div>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 ">
+          <button className="text-sm font-semibold leading-6 ">
             Upload File
-          </a>
+          </button>
         </div>
       </nav>
     </header>

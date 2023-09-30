@@ -6,14 +6,14 @@ export interface validateFieldInputResult {
   dublicateAddressPosition: Record<string, number[]>;
 }
 export const validateFieldInput = (
-  addressValue: string[]
+  addressValue: string
 ): validateFieldInputResult => {
   let isError = false;
   let isDublicateError = false;
   const errorMessage: string[] = [];
   const transactionByUniqueAddresses: Record<string, number[]> = {};
   const dublicateAddressPosition: Record<string, number[]> = {};
-  addressValue.forEach((transactionDetails, index) => {
+  addressValue.split("\n").forEach((transactionDetails, index) => {
     if (transactionDetails === "") {
       return;
     } else {
@@ -23,6 +23,7 @@ export const validateFieldInput = (
         .split(",")[0];
       const transactionValue =
         +getAmountAfterSpecialCharacter(transactionDetails);
+      console.log(transactionDetails, transactionValue);
       if (address.length !== 42) {
         isError = true;
         errorMessage.push(
@@ -75,23 +76,19 @@ export type TransactionActionType = "DELETE" | "COMBINE";
 export const calculateTransactionValueBasedOnAction = (
   action: TransactionActionType,
   dublicateTransactions: Record<string, number[]>
-): string[] => {
-  let updatedTransaction = [];
-
+): string => {
+  let updatedTransaction = "";
   for (const key in dublicateTransactions) {
-    updatedTransaction.push(
-      `${key}=${
-        action === "DELETE"
-          ? dublicateTransactions[key][0]
-          : sumOfArray(dublicateTransactions[key])
-      }`
-    );
+    updatedTransaction += `${key}=${
+      action === "DELETE"
+        ? dublicateTransactions[key][0]
+        : sumOfArray(dublicateTransactions[key])
+    }\n`;
   }
   return updatedTransaction;
 };
 
 const sumOfArray = (array: number[]) => {
-  console.log(array);
   var sum = array.reduce((accumulator, currentValue) => {
     return accumulator + currentValue;
   }, 0);
