@@ -14,13 +14,11 @@ const DublicationError = ({
   const formattedErrorMessage = useMemo(() => {
     let errorMessage: string[] = [];
     for (const [key, value] of Object.entries(transactionByUniqueAddresses)) {
-      console.log(key, value);
+      console.log(value);
       if (value.length > 1) {
-        errorMessage = [
-          `${key} dublicate in Line: ${dublicateAddressPosition[key].join(
-            ","
-          )}`,
-        ];
+        errorMessage.push(
+          `${key} dublicate in Line: ${dublicateAddressPosition[key].join(",")}`
+        );
       }
     }
     return errorMessage;

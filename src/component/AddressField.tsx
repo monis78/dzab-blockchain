@@ -1,39 +1,41 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 
 interface AddressFieldProps {
-  lineNo: number;
+  totalLines: number;
   inputValue: string;
   onChange: (addressValue: string, index: number) => void;
-  onLineChange: (lineNo: number, action: "ADD" | "DELETE") => void;
+  onLineChange?: (lineNo: number, action: "ADD" | "DELETE") => void;
 }
 const AddressField = ({
-  lineNo,
+  totalLines,
   inputValue,
   onChange,
-  onLineChange,
 }: AddressFieldProps) => {
+  const handleInputChange = (event: any) => {
+    onChange(event.target.value, totalLines);
+  };
+  const getLineNumber = useCallback(() => {
+    return (
+      <>
+        {new Array(totalLines).fill(0).map((line, index) => {
+          return <div key={index + 1}>{index + 1}</div>;
+        })}
+      </>
+    );
+  }, [totalLines]);
+
   return (
     <div style={{ display: "flex" }}>
-      <span className="line-number">{lineNo}</span>
+      <div className="line-number">{getLineNumber()}</div>
       <div className="line"></div>
-      <input
-        value={inputValue}
+
+      <textarea
         className="line-input bg-transparent px-5"
-        type="text"
-        onChange={(event) => {
-          onChange(event.target.value, lineNo);
-        }}
-        id={`input-${lineNo}`}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            onLineChange(lineNo, "ADD");
-          } else if (
-            event.key === "Backspace" &&
-            event.currentTarget.value === ""
-          ) {
-            onLineChange(lineNo, "DELETE");
-          }
-        }}
+        value={inputValue}
+        onChange={handleInputChange}
+        rows={10}
+        cols={80}
+        style={{ fontFamily: "monospace", lineHeight: "24px" }}
       />
     </div>
   );

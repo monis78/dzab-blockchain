@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Button from "./component/Button";
 import Header from "./component/Header";
@@ -14,7 +14,7 @@ import DublicationError from "./component/DublicationError";
 import { toast } from "react-toastify";
 
 function App() {
-  const [addressValue, setAddressValue] = useState([""]);
+  const [addressValue, setAddressValue] = useState("");
   const [validateTransaction, setValidateTransaction] =
     useState<validateFieldInputResult>({
       isError: false,
@@ -23,42 +23,14 @@ function App() {
       transactionByUniqueAddresses: {},
       dublicateAddressPosition: {},
     });
-  const ref = useRef(1);
-
-  useEffect(() => {
-    focusNextInput(ref.current);
-  }, [addressValue.length]);
 
   const onAddressValueChange = (updatedAddressValue: string, index: number) => {
-    const updatedAddress = [...addressValue];
-    updatedAddress[index - 1] = updatedAddressValue;
-    setAddressValue(updatedAddress);
+    setAddressValue(updatedAddressValue);
     setValidateTransaction({
       ...validateTransaction,
       isError: false,
       isDublicateError: false,
     });
-  };
-
-  const onLineChange = (lineNo: number, action: "ADD" | "DELETE") => {
-    if (action === "ADD") {
-      setAddressValue([...addressValue, ""]);
-    } else {
-      const updatedAddress = [...addressValue];
-      updatedAddress.splice(lineNo - 1, 1);
-      setAddressValue(updatedAddress);
-    }
-  };
-
-  const focusNextInput = (id: number) => {
-    if (id !== -1) {
-      const nextIndex = id + 1;
-      const nextInput = document.getElementById(`input-${nextIndex}`);
-      if (nextInput) {
-        nextInput.focus();
-        ref.current = nextIndex;
-      }
-    }
   };
 
   const onFormSubmit = () => {
@@ -95,7 +67,6 @@ function App() {
         <AddressContainer
           addressFieldValues={addressValue}
           onChange={onAddressValueChange}
-          onLineChange={onLineChange}
         />
 
         <div className="text-left py-10 flex justify-between">
