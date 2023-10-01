@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
+import { TransactionActionType } from "../utils/common-method";
 
 interface AddressFieldProps {
   totalLines: number;
   inputValue: string;
-  onChange: (addressValue: string, index: number) => void;
-  onLineChange?: (lineNo: number, action: "ADD" | "DELETE") => void;
+  onChange: (addressValue: string) => void;
+  onLineChange?: (lineNo: number, action: TransactionActionType) => void;
 }
 const AddressField = ({
   totalLines,
@@ -12,7 +13,7 @@ const AddressField = ({
   onChange,
 }: AddressFieldProps) => {
   const handleInputChange = (event: any) => {
-    onChange(event.target.value, totalLines);
+    onChange(event.target.value);
   };
   const getLineNumber = useCallback(() => {
     return (

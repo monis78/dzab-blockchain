@@ -1,14 +1,15 @@
 import React from "react";
 import AddressField from "./AddressField";
+import { getNoOfTransactionFromTransactionData } from "../utils/common-method";
 
-interface AddressContainerProps {
-  addressFieldValues: string;
-  onChange: (addressValue: string, index: number) => void;
+interface TransactionContainerProps {
+  transactionData: string;
+  onChange: (addressValue: string) => void;
 }
 const AddressContainer = ({
-  addressFieldValues,
+  transactionData,
   onChange,
-}: AddressContainerProps) => {
+}: TransactionContainerProps) => {
   return (
     <div className="p-10" style={{ backgroundColor: "black" }}>
       <div
@@ -22,8 +23,8 @@ const AddressContainer = ({
           style={{ maxHeight: "300px", scrollbarWidth: "none" }}
         >
           <AddressField
-            totalLines={addressFieldValues.split("\n").length}
-            inputValue={addressFieldValues}
+            totalLines={getNoOfTransactionFromTransactionData(transactionData)}
+            inputValue={transactionData}
             onChange={onChange}
           />
         </dl>

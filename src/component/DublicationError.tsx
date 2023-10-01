@@ -14,7 +14,6 @@ const DublicationError = ({
   const formattedErrorMessage = useMemo(() => {
     let errorMessage: string[] = [];
     for (const [key, value] of Object.entries(transactionByUniqueAddresses)) {
-      console.log(value);
       if (value.length > 1) {
         errorMessage.push(
           `${key} dublicate in Line: ${dublicateAddressPosition[key].join(",")}`
@@ -30,7 +29,7 @@ const DublicationError = ({
         <div className="flex justify-between">
           <button
             onClick={() => {
-              onTransactionResolveAction("DELETE");
+              onTransactionResolveAction(TransactionActionType.DELETE);
             }}
             className="px-4"
           >
@@ -39,7 +38,7 @@ const DublicationError = ({
           <div className="px-4">|</div>
           <button
             onClick={() => {
-              onTransactionResolveAction("COMBINE");
+              onTransactionResolveAction(TransactionActionType.COMBINE);
             }}
             className="px-4"
           >

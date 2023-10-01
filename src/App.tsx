@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Button from "./component/Button";
 import Header from "./component/Header";
-import AddressContainer from "./component/AddressContainer";
+import TransactionContainer from "./component/TransactionContainer";
 import {
   TransactionActionType,
   calculateTransactionValueBasedOnAction,
@@ -12,9 +12,10 @@ import {
 import TranctionError from "./component/TransactionError";
 import DublicationError from "./component/DublicationError";
 import { toast } from "react-toastify";
+import EditTransactionInstructions from "./component/EditTransactionInstructions";
 
 function App() {
-  const [addressValue, setAddressValue] = useState("");
+  const [transactionData, setTransactionData] = useState("");
   const [validateTransaction, setValidateTransaction] =
     useState<validateFieldInputResult>({
       isError: false,
@@ -24,8 +25,8 @@ function App() {
       dublicateAddressPosition: {},
     });
 
-  const onAddressValueChange = (updatedAddressValue: string, index: number) => {
-    setAddressValue(updatedAddressValue);
+  const onTransactionDataChange = (updatedTransactionData: string) => {
+    setTransactionData(updatedTransactionData);
     setValidateTransaction({
       ...validateTransaction,
       isError: false,
@@ -34,7 +35,7 @@ function App() {
   };
 
   const onFormSubmit = () => {
-    const validateInputValues = validateFieldInput(addressValue);
+    const validateInputValues = validateFieldInput(transactionData);
     if (validateInputValues.isError || validateInputValues.isDublicateError) {
       setValidateTransaction(validateInputValues);
       return;
@@ -48,7 +49,7 @@ function App() {
   };
 
   const onTransactionResolveAction = (action: TransactionActionType) => {
-    setAddressValue(
+    setTransactionData(
       calculateTransactionValueBasedOnAction(
         action,
         validateTransaction.transactionByUniqueAddresses
@@ -64,24 +65,17 @@ function App() {
     <div className="App text-white bg-neutral-500">
       <Header />
       <div className="lg px-16">
-        <AddressContainer
-          addressFieldValues={addressValue}
-          onChange={onAddressValueChange}
+        <TransactionContainer
+          transactionData={transactionData}
+          onChange={onTransactionDataChange}
         />
 
-        <div className="text-left py-10 flex justify-between">
-          <div>seperated by ',' or ' ' or '='</div>
-          <button
-            onClick={() => {
-              // open accordion on click of show example
-            }}
-          >
-            show Examples
-          </button>
-        </div>
+        <EditTransactionInstructions />
+
         {validateTransaction.isError && (
           <TranctionError errorMessages={validateTransaction.errorMessage} />
         )}
+
         {validateTransaction.isDublicateError && (
           <DublicationError
             transactionByUniqueAddresses={
